@@ -16,10 +16,6 @@ body{font-family:system-ui,sans-serif;background:#f5f5f3;color:#1a1a18;min-heigh
 .role-btn.active{background:#eee;color:#111;font-weight:500;}
 .view{display:none;}.view.active{display:block;}
 .card{background:#fff;border:1px solid #e0dfd8;border-radius:12px;padding:1.25rem;margin-bottom:1rem;}
-.section-label{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;font-weight:500;}
-.q-num{font-size:11px;color:#888;margin-bottom:6px;}
-.q-card-wrap{position:relative;}
-.remove-q{position:absolute;top:1.25rem;right:1.25rem;padding:5px 8px;border-radius:8px;border:1px solid #e0dfd8;background:transparent;font-size:14px;color:#888;cursor:pointer;}
 input[type=text]{width:100%;padding:9px 12px;border-radius:8px;border:1px solid #d0cfc8;font-size:14px;color:#1a1a18;background:#fff;margin-bottom:10px;outline:none;}
 input[type=text]:focus{border-color:#185FA5;}
 .opts-area{display:flex;flex-direction:column;gap:6px;margin-bottom:8px;}
@@ -30,22 +26,28 @@ input[type=text]:focus{border-color:#185FA5;}
 .add-opt{font-size:12px;color:#666;background:none;border:none;cursor:pointer;padding:2px 0;}
 .add-q-btn{width:100%;padding:10px;border-radius:8px;border:1px dashed #ccc;background:transparent;font-size:14px;color:#666;cursor:pointer;margin-top:4px;}
 .add-q-btn:hover{background:#f5f5f3;}
-.primary-btn{width:100%;padding:10px;border-radius:8px;border:none;background:#185FA5;color:#fff;font-size:14px;font-weight:500;cursor:pointer;margin-top:1rem;}
+.primary-btn{width:100%;padding:10px;border-radius:8px;border:none;background:#185FA5;color:#fff;font-size:14px;font-weight:500;cursor:pointer;margin-top:.75rem;}
 .primary-btn:hover{background:#0C447C;}
 .primary-btn:disabled{opacity:.4;cursor:not-allowed;}
+.danger-btn{width:100%;padding:10px;border-radius:8px;border:none;background:#993556;color:#fff;font-size:14px;font-weight:500;cursor:pointer;margin-top:.5rem;}
 .secondary-btn{padding:8px 14px;border-radius:8px;border:1px solid #ccc;background:transparent;font-size:13px;color:#666;cursor:pointer;}
-.session-box{background:#f5f5f3;border-radius:8px;padding:1rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;}
-.session-code{font-size:30px;font-weight:600;letter-spacing:.18em;}
-.copy-btn{font-size:13px;color:#185FA5;background:none;border:none;cursor:pointer;text-decoration:underline;}
-.q-nav{display:flex;align-items:center;gap:10px;margin-bottom:1rem;}
-.nav-btn{padding:7px 12px;border-radius:8px;border:1px solid #ccc;background:transparent;font-size:13px;cursor:pointer;color:#666;}
-.nav-btn:disabled{opacity:.3;cursor:not-allowed;}
-.q-counter{font-size:13px;color:#666;}
+.q-card-wrap{position:relative;border-left:3px solid #e0dfd8;}
+.q-card-wrap.active-q{border-left-color:#185FA5;}
+.q-num{font-size:11px;color:#888;margin-bottom:6px;}
+.remove-q{position:absolute;top:1.25rem;right:1.25rem;padding:5px 8px;border-radius:8px;border:1px solid #e0dfd8;background:transparent;font-size:14px;color:#888;cursor:pointer;}
+.code-row{display:flex;gap:8px;align-items:center;margin-bottom:6px;}
+.code-row span{font-size:12px;color:#888;white-space:nowrap;}
+.code-row input{flex:1;margin-bottom:0;font-size:13px;font-family:monospace;text-transform:uppercase;}
+.code-hint{font-size:11px;color:#aaa;margin-bottom:10px;}
+.saved-badge{font-size:11px;color:#3B6D11;margin-bottom:8px;display:none;}
+.live-box{background:#f5f5f3;border-radius:8px;padding:1rem;margin-bottom:1rem;}
+.live-code{font-size:28px;font-weight:600;letter-spacing:.18em;color:#185FA5;}
 .live-dot{width:7px;height:7px;border-radius:50%;background:#3B6D11;display:inline-block;animation:pulse 1.4s infinite;margin-right:5px;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.live-lbl{font-size:12px;color:#3B6D11;display:flex;align-items:center;}
+.live-lbl{font-size:12px;color:#3B6D11;display:flex;align-items:center;margin-top:4px;}
 .chart-wrap{position:relative;width:100%;margin-top:1rem;}
 .resp-count{font-size:13px;color:#888;margin-top:8px;}
+.copy-btn{font-size:13px;color:#185FA5;background:none;border:none;cursor:pointer;text-decoration:underline;margin-top:4px;display:block;}
 .parti-view{max-width:420px;margin:0 auto;}
 .join-box{text-align:center;padding:2rem 1.25rem;}
 .join-box h2{font-size:20px;font-weight:500;margin-bottom:6px;}
@@ -54,19 +56,14 @@ input[type=text]:focus{border-color:#185FA5;}
 .enter-btn{width:100%;padding:12px;border-radius:8px;border:none;background:#185FA5;color:#fff;font-size:15px;font-weight:500;cursor:pointer;}
 .q-txt-p{font-size:16px;font-weight:500;margin-bottom:1.25rem;line-height:1.45;}
 .mc-btn{width:100%;display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:8px;border:1px solid #ccc;background:transparent;font-size:14px;color:#1a1a18;cursor:pointer;margin-bottom:8px;text-align:left;}
+.mc-btn:disabled{opacity:.5;cursor:not-allowed;}
 .mc-btn.sel{border-color:#185FA5;background:#E6F1FB;color:#0C447C;}
 .mc-btn .lett{width:26px;height:26px;border-radius:50%;border:1px solid #ccc;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0;}
 .mc-btn.sel .lett{background:#185FA5;border-color:#185FA5;color:#fff;}
-.progress-dots{display:flex;gap:6px;justify-content:center;margin-bottom:1.25rem;}
-.pdot{width:8px;height:8px;border-radius:50%;background:#ccc;}
-.pdot.done{background:#185FA5;}
-.pdot.curr{background:#185FA5;outline:2px solid #B5D4F4;outline-offset:1px;}
 .toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:#1a1a18;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;}
 .toast.show{opacity:1;}
-.code-row{display:flex;gap:8px;align-items:center;margin-bottom:10px;}
-.code-row input{flex:1;margin-bottom:0;font-size:13px;font-family:monospace;text-transform:uppercase;}
-.code-hint{font-size:11px;color:#999;margin-bottom:14px;}
-.saved-badge{font-size:11px;color:#3B6D11;margin-top:4px;display:none;}
+.sent-screen{text-align:center;padding:2.5rem 1rem;}
+.section-label{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;font-weight:500;}
 </style>
 </head>
 <body>
@@ -82,31 +79,22 @@ input[type=text]:focus{border-color:#185FA5;}
 
   <!-- PRESENTADORA -->
   <div id="view-presenter" class="view active">
+
+    <!-- SETUP -->
     <div id="setup-mode">
-      <div class="section-label">Preguntas de tu sesión</div>
-      <div class="saved-badge" id="saved-badge">✓ Guardado automáticamente</div>
+      <div class="section-label">Preguntas</div>
+      <div class="saved-badge" id="saved-badge">✓ Guardado</div>
       <div id="questions-list"></div>
       <button class="add-q-btn" onclick="addQuestion()">+ Agregar pregunta</button>
-      <button class="primary-btn" onclick="startSession()">&#9654;&nbsp; Iniciar sesión en vivo</button>
     </div>
 
+    <!-- LIVE: una pregunta activa a la vez -->
     <div id="live-mode" style="display:none;">
-      <div class="session-box">
-        <div>
-          <div style="font-size:11px;color:#888;margin-bottom:4px;">Código de sesión</div>
-          <div class="session-code" id="session-code">------</div>
-          <div style="font-size:11px;color:#888;margin-top:3px;">Los participantes ingresan este código</div>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end;">
-          <button class="copy-btn" onclick="copyCode()">Copiar código</button>
-          <div class="live-lbl"><span class="live-dot"></span>En vivo</div>
-        </div>
-      </div>
-      <div class="q-nav">
-        <button class="nav-btn" id="prev-btn" onclick="navQ(-1)" disabled>&larr;</button>
-        <span class="q-counter" id="q-counter">Pregunta 1 de 1</span>
-        <button class="nav-btn" id="next-btn" onclick="navQ(1)">&rarr;</button>
-        <button class="secondary-btn" onclick="endSession()" style="margin-left:auto;">Terminar</button>
+      <div class="live-box">
+        <div style="font-size:11px;color:#888;margin-bottom:4px;">Sesión activa — código</div>
+        <div class="live-code" id="live-code">------</div>
+        <button class="copy-btn" onclick="copyCode()">Copiar código</button>
+        <div class="live-lbl"><span class="live-dot"></span>En vivo</div>
       </div>
       <div class="card">
         <div style="font-size:15px;font-weight:500;margin-bottom:4px;" id="live-q-text"></div>
@@ -115,6 +103,7 @@ input[type=text]:focus{border-color:#185FA5;}
         </div>
         <div class="resp-count"><span id="resp-n">0</span> respuestas</div>
       </div>
+      <button class="danger-btn" onclick="endSession()">Cerrar esta pregunta</button>
     </div>
   </div>
 
@@ -123,23 +112,19 @@ input[type=text]:focus{border-color:#185FA5;}
     <div class="parti-view">
       <div id="join-screen" class="card join-box">
         <div style="font-size:36px;margin-bottom:12px;">📱</div>
-        <h2>Unirse a sesión</h2>
+        <h2>Responder pregunta</h2>
         <p>Ingresa el código que muestra la presentadora</p>
-        <input class="code-input" id="join-code" maxlength="6" placeholder="CÓDIGO"
+        <input class="code-input" id="join-code" maxlength="8" placeholder="CÓDIGO"
                oninput="this.value=this.value.toUpperCase()"
                onkeydown="if(event.key==='Enter')joinSession()">
         <button class="enter-btn" onclick="joinSession()">Entrar</button>
       </div>
-      <div id="participant-session" style="display:none;">
-        <div class="progress-dots" id="progress-dots"></div>
-        <div id="p-area"></div>
-      </div>
+      <div id="participant-q" style="display:none;"></div>
     </div>
   </div>
 </div>
 
 <script>
-// ── SUPABASE ─────────────────────────────────────────────────────────
 const SUPABASE_URL = 'https://snjnhcpcpgczfaukzzsw.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNuam5oY3BjcGdjemZhdWt6enN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNTU1NDEsImV4cCI6MjA5NDczMTU0MX0._cfl-2_CH4jx4XMyde8JgsTYSPJSJJW5-iaz4_dM_pQ';
 
@@ -149,261 +134,246 @@ async function sb(path, opts={}) {
     headers: {
       'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY,
       'Content-Type': 'application/json', 'Prefer': opts.prefer || '',
-      ...(opts.headers || {})
+      ...(opts.headers||{})
     }
   });
   if (!r.ok) throw new Error(await r.text());
   return r.status === 204 ? null : r.json();
 }
 
-// ── ESTADO ───────────────────────────────────────────────────────────
 const LETTERS = ['A','B','C','D','E','F'];
 const COLORS  = ['#185FA5','#1D9E75','#D85A30','#854F0B','#993556','#534AB7'];
-let questions=[], responses=[], currentQ=0, liveChart=null, pollInterval=null;
-let sessionCode='', sessionId=null;
-let pCurrentQ=0, pAnswers={}, pSessionId=null, pSessionQs=[];
-let saveTimer=null;
 
-// ── PERSISTENCIA ─────────────────────────────────────────────────────
+let questions = [];
+let saveTimer = null;
+let liveChart = null;
+let pollInterval = null;
+let sessionId = null;
+let sessionCode = '';
+let activeQ = null; // pregunta activa
+
+// ── PERSISTENCIA ─────────────────────────────────────
 function saveQuestions() {
-  localStorage.setItem('encuesta_questions', JSON.stringify(questions));
-  const badge = document.getElementById('saved-badge');
-  badge.style.display = 'block';
-  setTimeout(() => badge.style.display = 'none', 2000);
+  localStorage.setItem('eq_questions', JSON.stringify(questions));
+  const b = document.getElementById('saved-badge');
+  b.style.display = 'block';
+  setTimeout(()=>b.style.display='none', 1500);
 }
-
 function loadQuestions() {
-  const saved = localStorage.getItem('encuesta_questions');
-  if (saved) {
-    try { questions = JSON.parse(saved); } catch(e) { questions = []; }
-  }
-  if (questions.length === 0) {
-    questions = [{ text: '', code: 'PREG01', options: ['', '', ''] }];
-  }
+  try { questions = JSON.parse(localStorage.getItem('eq_questions')) || []; } catch(e) { questions=[]; }
+  if (!questions.length) questions = [{text:'',code:'PREG01',options:['','','']}];
   renderQuestions();
 }
+function debounceSave() { clearTimeout(saveTimer); saveTimer=setTimeout(saveQuestions,700); }
 
-// ── UI ───────────────────────────────────────────────────────────────
-function switchView(v, btn) {
-  document.querySelectorAll('.view').forEach(e => e.classList.remove('active'));
-  document.querySelectorAll('.role-btn').forEach(e => e.classList.remove('active'));
-  document.getElementById('view-' + v).classList.add('active');
+// ── UI ────────────────────────────────────────────────
+function switchView(v,btn) {
+  document.querySelectorAll('.view').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.role-btn').forEach(e=>e.classList.remove('active'));
+  document.getElementById('view-'+v).classList.add('active');
   btn.classList.add('active');
 }
 function toast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2200);
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200);
+}
+function copyCode() {
+  navigator.clipboard.writeText(sessionCode).then(()=>toast('Código copiado ✓')).catch(()=>{});
 }
 
-// ── EDITOR ───────────────────────────────────────────────────────────
-function addQuestion(preset) {
-  const n = questions.length + 1;
-  questions.push(preset || { text: '', code: 'PREG' + String(n).padStart(2,'0'), options: ['', '', ''] });
-  renderQuestions();
-  saveQuestions();
+// ── EDITOR ───────────────────────────────────────────
+function addQuestion(p) {
+  const n = questions.length+1;
+  questions.push(p||{text:'',code:'PREG'+String(n).padStart(2,'0'),options:['','','']});
+  renderQuestions(); saveQuestions();
 }
-function removeQuestion(i) { questions.splice(i, 1); renderQuestions(); saveQuestions(); }
+function removeQuestion(i) { questions.splice(i,1); renderQuestions(); saveQuestions(); }
 
 function renderQuestions() {
   const list = document.getElementById('questions-list');
-  list.innerHTML = '';
-  questions.forEach((q, qi) => {
-    const w = document.createElement('div');
-    w.className = 'card q-card-wrap';
-    let oh = '<div class="opts-area">';
-    q.options.forEach((o, oi) => {
-      oh += `<div class="opt-row">
+  list.innerHTML='';
+  questions.forEach((q,qi)=>{
+    const w=document.createElement('div');
+    w.className='card q-card-wrap';
+    let oh='<div class="opts-area">';
+    q.options.forEach((o,oi)=>{
+      oh+=`<div class="opt-row">
         <span class="opt-letter">${LETTERS[oi]}</span>
         <input type="text" placeholder="Opción ${LETTERS[oi]}" value="${o}"
           oninput="questions[${qi}].options[${oi}]=this.value;debounceSave()">
-        ${q.options.length > 2 ? `<button class="del-btn" onclick="questions[${qi}].options.splice(${oi},1);renderQuestions();saveQuestions()">✕</button>` : ''}
+        ${q.options.length>2?`<button class="del-btn" onclick="questions[${qi}].options.splice(${oi},1);renderQuestions();saveQuestions()">✕</button>`:''}
       </div>`;
     });
-    if (q.options.length < 6)
-      oh += `<button class="add-opt" onclick="questions[${qi}].options.push('');renderQuestions();saveQuestions()">+ Agregar opción</button>`;
-    oh += '</div>';
-    w.innerHTML = `
-      <div class="q-num">Pregunta ${qi + 1}</div>
-      ${questions.length > 1 ? `<button class="remove-q" onclick="removeQuestion(${qi})">🗑</button>` : ''}
+    if(q.options.length<6) oh+=`<button class="add-opt" onclick="questions[${qi}].options.push('');renderQuestions();saveQuestions()">+ Agregar opción</button>`;
+    oh+='</div>';
+    w.innerHTML=`
+      <div class="q-num">Pregunta ${qi+1}</div>
+      ${questions.length>1?`<button class="remove-q" onclick="removeQuestion(${qi})">🗑</button>`:''}
       <input type="text" placeholder="Escribe tu pregunta aquí..."
         value="${q.text}" oninput="questions[${qi}].text=this.value;debounceSave()">
       <div class="code-row">
-        <span style="font-size:12px;color:#888;white-space:nowrap;">Código QR:</span>
+        <span>Código:</span>
         <input type="text" maxlength="8" value="${q.code||'PREG'+String(qi+1).padStart(2,'0')}"
           oninput="questions[${qi}].code=this.value.toUpperCase();this.value=this.value.toUpperCase();debounceSave()">
       </div>
-      <div class="code-hint">Este código va en el QR de tu diapositiva. Puedes cambiarlo.</div>
-      ${oh}`;
+      <div class="code-hint">El QR de esta diapositiva usará este código.</div>
+      ${oh}
+      <button class="primary-btn" onclick="startQuestion(${qi})">▶ Activar esta pregunta en vivo</button>
+    `;
     list.appendChild(w);
   });
 }
 
-function debounceSave() {
-  clearTimeout(saveTimer);
-  saveTimer = setTimeout(saveQuestions, 800);
-}
-
-// ── SESIÓN ───────────────────────────────────────────────────────────
-async function startSession() {
-  if (!questions.length) { toast('Agrega al menos una pregunta'); return; }
-  // Usar el código de la primera pregunta como código de sesión
-  sessionCode = (questions[0].code || 'SESION').toUpperCase();
-  responses = questions.map(q => new Array(q.options.length).fill(0));
+// ── SESIÓN POR PREGUNTA ──────────────────────────────
+async function startQuestion(qi) {
+  const q = questions[qi];
+  if (!q.text.trim()) { toast('Escribe el texto de la pregunta'); return; }
+  activeQ = q;
+  sessionCode = q.code.toUpperCase();
 
   try {
-    // Eliminar sesión previa con el mismo código si existe
-    await sb(`sessions?code=eq.${sessionCode}`, { method: 'PATCH', body: JSON.stringify({ active: false }) });
+    // Marcar sesiones anteriores con este código como inactivas
+    await sb(`sessions?code=eq.${sessionCode}`, {
+      method: 'PATCH',
+      headers: {'Prefer':'return=minimal'},
+      body: JSON.stringify({active: false})
+    });
+    // Crear nueva sesión
     const row = await sb('sessions?select=id', {
       method: 'POST', prefer: 'return=representation',
-      body: JSON.stringify({ code: sessionCode, questions: JSON.stringify(questions), active: true })
+      body: JSON.stringify({code: sessionCode, questions: JSON.stringify([q]), active: true})
     });
     sessionId = row[0].id;
-  } catch(e) { toast('Error conectando. Revisa Supabase.'); console.error(e); return; }
+  } catch(e) {
+    // Si falla el PATCH (no hay sesión previa), igual intentar crear
+    try {
+      const row = await sb('sessions?select=id', {
+        method: 'POST', prefer: 'return=representation',
+        body: JSON.stringify({code: sessionCode, questions: JSON.stringify([q]), active: true})
+      });
+      sessionId = row[0].id;
+    } catch(e2) { toast('Error al iniciar. Revisa Supabase.'); console.error(e2); return; }
+  }
 
-  document.getElementById('session-code').textContent = sessionCode;
+  document.getElementById('live-code').textContent = sessionCode;
+  document.getElementById('live-q-text').textContent = q.text;
   document.getElementById('setup-mode').style.display = 'none';
   document.getElementById('live-mode').style.display = 'block';
-  currentQ = 0; buildChart(); renderLiveQ(); startPolling();
+
+  buildChart([...new Array(q.options.length).fill(0)], q.options);
+  startPolling();
 }
 
-function buildChart() {
+function buildChart(data, labels) {
   if (liveChart) liveChart.destroy();
-  const q = questions[currentQ];
-  const h = Math.max(220, q.options.length * 48 + 60);
-  document.getElementById('chart-container').style.height = h + 'px';
+  const h = Math.max(220, labels.length*48+60);
+  document.getElementById('chart-container').style.height = h+'px';
   liveChart = new Chart(document.getElementById('liveChart'), {
     type: 'bar',
     data: {
-      labels: q.options.map(o => o || '—'),
-      datasets: [{ data: [...responses[currentQ]], backgroundColor: COLORS.slice(0, q.options.length), borderRadius: 5, borderSkipped: false }]
+      labels: labels.map(o=>o||'—'),
+      datasets: [{data, backgroundColor: COLORS.slice(0,labels.length), borderRadius:5, borderSkipped:false}]
     },
     options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: { display: false }, ticks: { color: '#888', font: { size: 12 }, autoSkip: false } },
-        y: { beginAtZero: true, ticks: { stepSize: 1, precision: 0, color: '#888', font: { size: 12 } }, grid: { color: 'rgba(0,0,0,.06)' } }
-      }, animation: { duration: 400 }
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{grid:{display:false},ticks:{color:'#888',font:{size:12},autoSkip:false}},
+        y:{beginAtZero:true,ticks:{stepSize:1,precision:0,color:'#888',font:{size:12}},grid:{color:'rgba(0,0,0,.06)'}}
+      },
+      animation:{duration:400}
     }
   });
 }
 
-function renderLiveQ() {
-  const q = questions[currentQ];
-  document.getElementById('live-q-text').textContent = q.text || '(sin texto)';
-  document.getElementById('q-counter').textContent = `Pregunta ${currentQ + 1} de ${questions.length}`;
-  document.getElementById('prev-btn').disabled = currentQ === 0;
-  document.getElementById('next-btn').disabled = currentQ === questions.length - 1;
-  updateCount();
-}
-
-function navQ(dir) {
-  currentQ = Math.max(0, Math.min(questions.length - 1, currentQ + dir));
-  buildChart(); renderLiveQ();
-}
-
 function startPolling() {
   if (pollInterval) clearInterval(pollInterval);
-  pollInterval = setInterval(async () => {
+  pollInterval = setInterval(async ()=>{
     if (!sessionId) return;
     try {
-      const rows = await sb(`responses?session_id=eq.${sessionId}&select=question_index,option_index`);
-      const counts = questions.map(q => new Array(q.options.length).fill(0));
-      rows.forEach(r => { if (counts[r.question_index]) counts[r.question_index][r.option_index]++; });
-      responses = counts;
-      if (liveChart) { liveChart.data.datasets[0].data = [...responses[currentQ]]; liveChart.update('none'); }
-      updateCount();
-    } catch(e) {}
+      const rows = await sb(`responses?session_id=eq.${sessionId}&select=option_index`);
+      const counts = new Array(activeQ.options.length).fill(0);
+      rows.forEach(r=>{ if(counts[r.option_index]!==undefined) counts[r.option_index]++; });
+      if (liveChart) { liveChart.data.datasets[0].data=[...counts]; liveChart.update('none'); }
+      document.getElementById('resp-n').textContent = counts.reduce((a,b)=>a+b,0);
+    } catch(e){}
   }, 2000);
-}
-
-function updateCount() {
-  document.getElementById('resp-n').textContent = responses[currentQ].reduce((a, b) => a + b, 0);
 }
 
 async function endSession() {
   if (pollInterval) clearInterval(pollInterval);
   if (sessionId) {
-    try { await sb(`sessions?id=eq.${sessionId}`, { method: 'PATCH', body: JSON.stringify({ active: false }) }); } catch(e) {}
+    try { await sb(`sessions?id=eq.${sessionId}`,{method:'PATCH',body:JSON.stringify({active:false})}); } catch(e){}
   }
-  sessionId = null;
-  document.getElementById('live-mode').style.display = 'none';
-  document.getElementById('setup-mode').style.display = 'block';
+  sessionId=null; activeQ=null;
+  document.getElementById('live-mode').style.display='none';
+  document.getElementById('setup-mode').style.display='block';
 }
 
-function copyCode() {
-  navigator.clipboard.writeText(sessionCode).then(() => toast('Código copiado ✓')).catch(() => {});
-}
+// ── PARTICIPANTE ─────────────────────────────────────
+let pSessionId=null, pQuestion=null, pAnswered=false;
 
-// ── PARTICIPANTE ─────────────────────────────────────────────────────
 async function joinSession() {
   const code = document.getElementById('join-code').value.trim().toUpperCase();
-  if (code.length < 2) { toast('Ingresa el código'); return; }
+  if (!code) { toast('Ingresa el código'); return; }
   try {
     const rows = await sb(`sessions?code=eq.${code}&active=eq.true&select=id,questions`);
-    if (!rows || !rows.length) { toast('Código incorrecto o sesión cerrada'); return; }
+    if (!rows||!rows.length) { toast('Código incorrecto o sesión cerrada'); return; }
     pSessionId = rows[0].id;
-    pSessionQs = JSON.parse(rows[0].questions);
+    pQuestion = JSON.parse(rows[0].questions)[0];
+    pAnswered = false;
   } catch(e) { toast('No se pudo conectar'); return; }
-  pCurrentQ = 0; pAnswers = {};
-  document.getElementById('join-screen').style.display = 'none';
-  document.getElementById('participant-session').style.display = 'block';
+  document.getElementById('join-screen').style.display='none';
   renderParticipantQ();
 }
 
 function renderParticipantQ() {
-  document.getElementById('progress-dots').innerHTML =
-    pSessionQs.map((_, i) => `<div class="pdot ${i < pCurrentQ ? 'done' : i === pCurrentQ ? 'curr' : ''}"></div>`).join('');
-  const area = document.getElementById('p-area');
-  if (pCurrentQ >= pSessionQs.length) {
-    area.innerHTML = `<div class="card" style="text-align:center;padding:2.5rem 1rem;">
+  const area = document.getElementById('participant-q');
+  const q = pQuestion;
+  if (pAnswered) {
+    area.innerHTML=`<div class="card sent-screen">
       <div style="font-size:42px;">✅</div>
-      <p style="font-size:16px;font-weight:500;margin-top:12px;">¡Gracias por participar!</p>
-      <p style="font-size:13px;color:#666;margin-top:6px;">Tus respuestas ya aparecen en la gráfica.</p>
+      <p style="font-size:16px;font-weight:500;margin-top:12px;">¡Respuesta enviada!</p>
+      <p style="font-size:13px;color:#666;margin-top:6px;">Ya aparece en la gráfica.</p>
     </div>`;
     return;
   }
-  const q = pSessionQs[pCurrentQ];
-  let html = `<div class="card"><div class="q-txt-p">${pCurrentQ + 1}. ${q.text || '(sin texto)'}</div>`;
-  html += q.options.map((o, i) =>
-    `<button class="mc-btn ${pAnswers[pCurrentQ] === i ? 'sel' : ''}" onclick="selectP(${i})">
-      <span class="lett">${LETTERS[i]}</span>${o || 'Opción ' + (i + 1)}
+  let html=`<div class="card"><div class="q-txt-p">${q.text}</div>`;
+  html+=q.options.map((o,i)=>
+    `<button class="mc-btn" id="opt-${i}" onclick="selectAndSubmit(${i})">
+      <span class="lett">${LETTERS[i]}</span>${o||'Opción '+(i+1)}
     </button>`
   ).join('');
-  html += `<button class="primary-btn" onclick="submitP()" ${pAnswers[pCurrentQ] === undefined ? 'disabled' : ''}>
-    ${pCurrentQ < pSessionQs.length - 1 ? 'Enviar respuesta → →' : 'Enviar respuesta →s'}
-  </button></div>`;
-  area.innerHTML = html;
+  html+='</div>';
+  area.innerHTML=html;
+  area.style.display='block';
 }
 
-function selectP(i) { pAnswers[pCurrentQ] = i; renderParticipantQ(); }
-
-async function submitP() {
-  if (pAnswers[pCurrentQ] === undefined) return;
+async function selectAndSubmit(i) {
+  if (pAnswered) return;
+  pAnswered = true;
+  // Deshabilitar todos los botones inmediatamente
+  document.querySelectorAll('.mc-btn').forEach(b=>b.disabled=true);
+  document.getElementById('opt-'+i).classList.add('sel');
   try {
-    await sb('responses', {
-      method: 'POST', prefer: 'return=minimal',
-      body: JSON.stringify({ session_id: pSessionId, question_index: pCurrentQ, option_index: pAnswers[pCurrentQ] })
+    await sb('responses',{
+      method:'POST', prefer:'return=minimal',
+      body: JSON.stringify({session_id:pSessionId, question_index:0, option_index:i})
     });
-  } catch(e) { toast('Error al enviar'); return; }
-  pCurrentQ++; renderParticipantQ();
+  } catch(e) { toast('Error al enviar'); pAnswered=false; return; }
+  renderParticipantQ();
 }
 
-// ── INIT ─────────────────────────────────────────────────────────────
+// ── INIT ─────────────────────────────────────────────
 loadQuestions();
 
-const urlParams = new URLSearchParams(window.location.search);
-const modoParam = urlParams.get('modo');
-const codigoParam = urlParams.get('codigo');
-
-if (modoParam === 'participante') {
-  document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+const params = new URLSearchParams(window.location.search);
+if (params.get('modo')==='participante') {
+  document.querySelectorAll('.view').forEach(e=>e.classList.remove('active'));
   document.getElementById('view-participant').classList.add('active');
-  document.getElementById('role-switch').style.display = 'none';
-  if (codigoParam) {
-    document.getElementById('join-code').value = codigoParam.toUpperCase();
-  }
+  document.getElementById('role-switch').style.display='none';
+  if (params.get('codigo')) document.getElementById('join-code').value=params.get('codigo').toUpperCase();
 }
 </script>
 </body>
