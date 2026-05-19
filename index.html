@@ -160,7 +160,7 @@ function saveQuestions() {
   setTimeout(()=>b.style.display='none', 1500);
 }
 function loadQuestions() {
-  try { questions = JSON.parse(localStorage.getItem('eq_questions')) || []; } catch(e) { questions=[]; }
+  try { questions = JSON.parse(localStorage.getItem('encuesta_questions') || localStorage.getItem('eq_questions')) || []; } catch(e) { questions=[]; }
   if (!questions.length) questions = [{text:'',code:'PREG01',options:['','','']}];
   renderQuestions();
 }
