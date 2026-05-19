@@ -370,6 +370,15 @@ async function submitP(){
 
 // ── INIT ─────────────────────────────────────────────────────────────
 loadCfg();
+
+// Si la URL tiene ?modo=participante, ir directo a esa vista y ocultar el switch
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('modo') === 'participante') {
+  document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+  document.getElementById('view-participant').classList.add('active');
+  document.querySelector('.role-switch').style.display = 'none';
+}
+
 addQuestion({text:'¿Con qué frecuencia consultas guías clínicas actualizadas?',options:['Siempre','A veces','Rara vez','Nunca']});
 addQuestion({text:'¿Cuál es la principal barrera en tu práctica clínica?',options:['Tiempo','Recursos','Capacitación','Comunicación']});
 </script>
