@@ -61,46 +61,30 @@ input[type=text]:focus{border-color:#185FA5;}
 .pdot{width:8px;height:8px;border-radius:50%;background:#ccc;}
 .pdot.done{background:#185FA5;}
 .pdot.curr{background:#185FA5;outline:2px solid #B5D4F4;outline-offset:1px;}
-.config-banner{background:#FFF8E6;border:1px solid #F0D070;border-radius:10px;padding:1rem;margin-bottom:1rem;font-size:13px;color:#7A5800;line-height:1.6;}
-.config-banner b{display:block;margin-bottom:6px;font-size:14px;}
 .toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:#1a1a18;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;}
 .toast.show{opacity:1;}
+.code-row{display:flex;gap:8px;align-items:center;margin-bottom:10px;}
+.code-row input{flex:1;margin-bottom:0;font-size:13px;font-family:monospace;text-transform:uppercase;}
+.code-hint{font-size:11px;color:#999;margin-bottom:14px;}
+.saved-badge{font-size:11px;color:#3B6D11;margin-top:4px;display:none;}
 </style>
 </head>
 <body>
 <div class="toast" id="toast"></div>
 <div class="app">
-
   <div class="topbar">
     <span class="topbar-title">&#9646; Encuesta en vivo</span>
-    <div class="role-switch">
+    <div class="role-switch" id="role-switch">
       <button class="role-btn active" onclick="switchView('presenter',this)">Presentadora</button>
       <button class="role-btn" onclick="switchView('participant',this)">Participante</button>
     </div>
   </div>
 
-  <!-- ══ PRESENTADORA ══ -->
+  <!-- PRESENTADORA -->
   <div id="view-presenter" class="view active">
-
-    <div class="config-banner" style="display:none;" id="config-banner">
-      <b>⚙️ Conecta tu base de datos Supabase (solo una vez)</b>
-      <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
-        <div>
-          <div style="font-size:11px;margin-bottom:3px;">Project URL</div>
-          <input type="text" id="cfg-url" placeholder="https://xxxx.supabase.co" style="margin-bottom:0;font-size:13px;" oninput="saveCfg()">
-        </div>
-        <div>
-          <div style="font-size:11px;margin-bottom:3px;">Anon Key</div>
-          <input type="text" id="cfg-key" placeholder="eyJhbGciOi..." style="margin-bottom:0;font-size:13px;" oninput="saveCfg()">
-        </div>
-      </div>
-      <div style="margin-top:8px;font-size:12px;color:#9A7000;">
-        Supabase.com → tu proyecto → Settings → API → copia ambos valores
-      </div>
-    </div>
-
     <div id="setup-mode">
       <div class="section-label">Preguntas de tu sesión</div>
+      <div class="saved-badge" id="saved-badge">✓ Guardado automáticamente</div>
       <div id="questions-list"></div>
       <button class="add-q-btn" onclick="addQuestion()">+ Agregar pregunta</button>
       <button class="primary-btn" onclick="startSession()">&#9654;&nbsp; Iniciar sesión en vivo</button>
@@ -118,14 +102,12 @@ input[type=text]:focus{border-color:#185FA5;}
           <div class="live-lbl"><span class="live-dot"></span>En vivo</div>
         </div>
       </div>
-
       <div class="q-nav">
         <button class="nav-btn" id="prev-btn" onclick="navQ(-1)" disabled>&larr;</button>
         <span class="q-counter" id="q-counter">Pregunta 1 de 1</span>
         <button class="nav-btn" id="next-btn" onclick="navQ(1)">&rarr;</button>
         <button class="secondary-btn" onclick="endSession()" style="margin-left:auto;">Terminar</button>
       </div>
-
       <div class="card">
         <div style="font-size:15px;font-weight:500;margin-bottom:4px;" id="live-q-text"></div>
         <div class="chart-wrap" id="chart-container" style="height:240px;">
@@ -136,10 +118,9 @@ input[type=text]:focus{border-color:#185FA5;}
     </div>
   </div>
 
-  <!-- ══ PARTICIPANTE ══ -->
+  <!-- PARTICIPANTE -->
   <div id="view-participant" class="view">
     <div class="parti-view">
-
       <div id="join-screen" class="card join-box">
         <div style="font-size:36px;margin-bottom:12px;">📱</div>
         <h2>Unirse a sesión</h2>
@@ -149,35 +130,19 @@ input[type=text]:focus{border-color:#185FA5;}
                onkeydown="if(event.key==='Enter')joinSession()">
         <button class="enter-btn" onclick="joinSession()">Entrar</button>
       </div>
-
       <div id="participant-session" style="display:none;">
         <div class="progress-dots" id="progress-dots"></div>
         <div id="p-area"></div>
       </div>
     </div>
   </div>
-
 </div>
-<script>
-// ── CONFIG ──────────────────────────────────────────────────────────
-let SUPABASE_URL = 'https://snjnhcpcpgczfaukzzsw.supabase.co', SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNuam5oY3BjcGdjemZhdWt6enN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNTU1NDEsImV4cCI6MjA5NDczMTU0MX0._cfl-2_CH4jx4XMyde8JgsTYSPJSJJW5-iaz4_dM_pQ';
 
-function saveCfg() {
-  SUPABASE_URL = document.getElementById('cfg-url').value.trim();
-  SUPABASE_KEY = document.getElementById('cfg-key').value.trim();
-  localStorage.setItem('sb_url', SUPABASE_URL);
-  localStorage.setItem('sb_key', SUPABASE_KEY);
-  if (SUPABASE_URL && SUPABASE_KEY)
-    document.getElementById('config-banner').style.display = 'none';
-}
-function loadCfg() {
-  SUPABASE_URL = localStorage.getItem('sb_url') || '';
-  SUPABASE_KEY = localStorage.getItem('sb_key') || '';
-  if (SUPABASE_URL) document.getElementById('cfg-url').value = SUPABASE_URL;
-  if (SUPABASE_KEY) document.getElementById('cfg-key').value = SUPABASE_KEY;
-  if (SUPABASE_URL && SUPABASE_KEY)
-    document.getElementById('config-banner').style.display = 'none';
-}
+<script>
+// ── SUPABASE ─────────────────────────────────────────────────────────
+const SUPABASE_URL = 'https://snjnhcpcpgczfaukzzsw.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNuam5oY3BjcGdjemZhdWt6enN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNTU1NDEsImV4cCI6MjA5NDczMTU0MX0._cfl-2_CH4jx4XMyde8JgsTYSPJSJJW5-iaz4_dM_pQ';
+
 async function sb(path, opts={}) {
   const r = await fetch(SUPABASE_URL + '/rest/v1/' + path, {
     ...opts,
@@ -191,196 +156,255 @@ async function sb(path, opts={}) {
   return r.status === 204 ? null : r.json();
 }
 
-// ── ESTADO ──────────────────────────────────────────────────────────
+// ── ESTADO ───────────────────────────────────────────────────────────
 const LETTERS = ['A','B','C','D','E','F'];
 const COLORS  = ['#185FA5','#1D9E75','#D85A30','#854F0B','#993556','#534AB7'];
 let questions=[], responses=[], currentQ=0, liveChart=null, pollInterval=null;
 let sessionCode='', sessionId=null;
 let pCurrentQ=0, pAnswers={}, pSessionId=null, pSessionQs=[];
+let saveTimer=null;
 
-// ── UI ──────────────────────────────────────────────────────────────
-function switchView(v,btn){
-  document.querySelectorAll('.view').forEach(e=>e.classList.remove('active'));
-  document.querySelectorAll('.role-btn').forEach(e=>e.classList.remove('active'));
-  document.getElementById('view-'+v).classList.add('active');
-  btn.classList.add('active');
-}
-function toast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2200);
+// ── PERSISTENCIA ─────────────────────────────────────────────────────
+function saveQuestions() {
+  localStorage.setItem('encuesta_questions', JSON.stringify(questions));
+  const badge = document.getElementById('saved-badge');
+  badge.style.display = 'block';
+  setTimeout(() => badge.style.display = 'none', 2000);
 }
 
-// ── EDITOR ──────────────────────────────────────────────────────────
-function addQuestion(p){
-  questions.push(p||{text:'',options:['','','']});
+function loadQuestions() {
+  const saved = localStorage.getItem('encuesta_questions');
+  if (saved) {
+    try { questions = JSON.parse(saved); } catch(e) { questions = []; }
+  }
+  if (questions.length === 0) {
+    questions = [{ text: '', code: 'PREG01', options: ['', '', ''] }];
+  }
   renderQuestions();
 }
-function removeQuestion(i){ questions.splice(i,1); renderQuestions(); }
-function renderQuestions(){
-  const list=document.getElementById('questions-list');
-  list.innerHTML='';
-  questions.forEach((q,qi)=>{
-    const w=document.createElement('div');
-    w.className='card q-card-wrap';
-    let oh='<div class="opts-area">';
-    q.options.forEach((o,oi)=>{
-      oh+=`<div class="opt-row">
+
+// ── UI ───────────────────────────────────────────────────────────────
+function switchView(v, btn) {
+  document.querySelectorAll('.view').forEach(e => e.classList.remove('active'));
+  document.querySelectorAll('.role-btn').forEach(e => e.classList.remove('active'));
+  document.getElementById('view-' + v).classList.add('active');
+  btn.classList.add('active');
+}
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ── EDITOR ───────────────────────────────────────────────────────────
+function addQuestion(preset) {
+  const n = questions.length + 1;
+  questions.push(preset || { text: '', code: 'PREG' + String(n).padStart(2,'0'), options: ['', '', ''] });
+  renderQuestions();
+  saveQuestions();
+}
+function removeQuestion(i) { questions.splice(i, 1); renderQuestions(); saveQuestions(); }
+
+function renderQuestions() {
+  const list = document.getElementById('questions-list');
+  list.innerHTML = '';
+  questions.forEach((q, qi) => {
+    const w = document.createElement('div');
+    w.className = 'card q-card-wrap';
+    let oh = '<div class="opts-area">';
+    q.options.forEach((o, oi) => {
+      oh += `<div class="opt-row">
         <span class="opt-letter">${LETTERS[oi]}</span>
-        <input type="text" placeholder="Opción ${LETTERS[oi]}" value="${o}" oninput="questions[${qi}].options[${oi}]=this.value">
-        ${q.options.length>2?`<button class="del-btn" onclick="questions[${qi}].options.splice(${oi},1);renderQuestions()">✕</button>`:''}
+        <input type="text" placeholder="Opción ${LETTERS[oi]}" value="${o}"
+          oninput="questions[${qi}].options[${oi}]=this.value;debounceSave()">
+        ${q.options.length > 2 ? `<button class="del-btn" onclick="questions[${qi}].options.splice(${oi},1);renderQuestions();saveQuestions()">✕</button>` : ''}
       </div>`;
     });
-    if(q.options.length<6) oh+=`<button class="add-opt" onclick="questions[${qi}].options.push('');renderQuestions()">+ Agregar opción</button>`;
-    oh+='</div>';
-    w.innerHTML=`
-      <div class="q-num">Pregunta ${qi+1}</div>
-      ${questions.length>1?`<button class="remove-q" onclick="removeQuestion(${qi})">🗑</button>`:''}
-      <input type="text" placeholder="Escribe tu pregunta aquí..." value="${q.text}" oninput="questions[${qi}].text=this.value">
+    if (q.options.length < 6)
+      oh += `<button class="add-opt" onclick="questions[${qi}].options.push('');renderQuestions();saveQuestions()">+ Agregar opción</button>`;
+    oh += '</div>';
+    w.innerHTML = `
+      <div class="q-num">Pregunta ${qi + 1}</div>
+      ${questions.length > 1 ? `<button class="remove-q" onclick="removeQuestion(${qi})">🗑</button>` : ''}
+      <input type="text" placeholder="Escribe tu pregunta aquí..."
+        value="${q.text}" oninput="questions[${qi}].text=this.value;debounceSave()">
+      <div class="code-row">
+        <span style="font-size:12px;color:#888;white-space:nowrap;">Código QR:</span>
+        <input type="text" maxlength="8" value="${q.code||'PREG'+String(qi+1).padStart(2,'0')}"
+          oninput="questions[${qi}].code=this.value.toUpperCase();this.value=this.value.toUpperCase();debounceSave()">
+      </div>
+      <div class="code-hint">Este código va en el QR de tu diapositiva. Puedes cambiarlo.</div>
       ${oh}`;
     list.appendChild(w);
   });
 }
 
-// ── SESIÓN PRESENTADORA ─────────────────────────────────────────────
-async function startSession(){
-  if(!questions.length){toast('Agrega al menos una pregunta');return;}
-  if(!SUPABASE_URL||!SUPABASE_KEY){toast('Configura Supabase primero');return;}
-  responses=questions.map(q=>new Array(q.options.length).fill(0));
-  sessionCode=Math.random().toString(36).substr(2,6).toUpperCase();
-  try{
-    const row=await sb('sessions?select=id',{method:'POST',prefer:'return=representation',
-      body:JSON.stringify({code:sessionCode,questions:JSON.stringify(questions),active:true})});
-    sessionId=row[0].id;
-  }catch(e){toast('Error con Supabase. Revisa tus claves.');console.error(e);return;}
-  document.getElementById('session-code').textContent=sessionCode;
-  document.getElementById('setup-mode').style.display='none';
-  document.getElementById('live-mode').style.display='block';
-  currentQ=0; buildChart(); renderLiveQ(); startPolling();
-}
-function buildChart(){
-  if(liveChart) liveChart.destroy();
-  const q=questions[currentQ];
-  const h=Math.max(220,q.options.length*48+60);
-  document.getElementById('chart-container').style.height=h+'px';
-  liveChart=new Chart(document.getElementById('liveChart'),{
-    type:'bar',
-    data:{labels:q.options.map(o=>o||'—'),
-      datasets:[{data:[...responses[currentQ]],backgroundColor:COLORS.slice(0,q.options.length),borderRadius:5,borderSkipped:false}]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false}},
-      scales:{
-        x:{grid:{display:false},ticks:{color:'#888',font:{size:12},autoSkip:false}},
-        y:{beginAtZero:true,ticks:{stepSize:1,precision:0,color:'#888',font:{size:12}},grid:{color:'rgba(0,0,0,.06)'}}
-      },animation:{duration:400}}
-  });
-}
-function renderLiveQ(){
-  const q=questions[currentQ];
-  document.getElementById('live-q-text').textContent=q.text||'(sin texto)';
-  document.getElementById('q-counter').textContent=`Pregunta ${currentQ+1} de ${questions.length}`;
-  document.getElementById('prev-btn').disabled=currentQ===0;
-  document.getElementById('next-btn').disabled=currentQ===questions.length-1;
-  updateCount();
-}
-function navQ(dir){
-  currentQ=Math.max(0,Math.min(questions.length-1,currentQ+dir));
-  buildChart(); renderLiveQ();
-}
-function startPolling(){
-  if(pollInterval) clearInterval(pollInterval);
-  pollInterval=setInterval(fetchResponses,2000);
-}
-async function fetchResponses(){
-  if(!sessionId) return;
-  try{
-    const rows=await sb(`responses?session_id=eq.${sessionId}&select=question_index,option_index`);
-    const counts=questions.map(q=>new Array(q.options.length).fill(0));
-    rows.forEach(r=>{ if(counts[r.question_index]) counts[r.question_index][r.option_index]++; });
-    responses=counts;
-    if(liveChart){liveChart.data.datasets[0].data=[...responses[currentQ]];liveChart.update('none');}
-    updateCount();
-  }catch(e){}
-}
-function updateCount(){
-  document.getElementById('resp-n').textContent=responses[currentQ].reduce((a,b)=>a+b,0);
-}
-async function endSession(){
-  if(pollInterval) clearInterval(pollInterval);
-  if(sessionId){
-    try{await sb(`sessions?id=eq.${sessionId}`,{method:'PATCH',body:JSON.stringify({active:false})});}catch(e){}
-  }
-  sessionId=null;
-  document.getElementById('live-mode').style.display='none';
-  document.getElementById('setup-mode').style.display='block';
-}
-function copyCode(){
-  navigator.clipboard.writeText(sessionCode).then(()=>toast('Código copiado ✓')).catch(()=>{});
+function debounceSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveQuestions, 800);
 }
 
-// ── PARTICIPANTE ────────────────────────────────────────────────────
-async function joinSession(){
-  const code=document.getElementById('join-code').value.trim().toUpperCase();
-  if(code.length<4){toast('Ingresa el código completo');return;}
-  if(!SUPABASE_URL||!SUPABASE_KEY){toast('Configura Supabase primero');return;}
-  try{
-    const rows=await sb(`sessions?code=eq.${code}&active=eq.true&select=id,questions`);
-    if(!rows||!rows.length){toast('Código incorrecto o sesión cerrada');return;}
-    pSessionId=rows[0].id;
-    pSessionQs=JSON.parse(rows[0].questions);
-  }catch(e){toast('No se pudo conectar');return;}
-  pCurrentQ=0; pAnswers={};
-  document.getElementById('join-screen').style.display='none';
-  document.getElementById('participant-session').style.display='block';
+// ── SESIÓN ───────────────────────────────────────────────────────────
+async function startSession() {
+  if (!questions.length) { toast('Agrega al menos una pregunta'); return; }
+  // Usar el código de la primera pregunta como código de sesión
+  sessionCode = (questions[0].code || 'SESION').toUpperCase();
+  responses = questions.map(q => new Array(q.options.length).fill(0));
+
+  try {
+    // Eliminar sesión previa con el mismo código si existe
+    await sb(`sessions?code=eq.${sessionCode}`, { method: 'DELETE' });
+    const row = await sb('sessions?select=id', {
+      method: 'POST', prefer: 'return=representation',
+      body: JSON.stringify({ code: sessionCode, questions: JSON.stringify(questions), active: true })
+    });
+    sessionId = row[0].id;
+  } catch(e) { toast('Error conectando. Revisa Supabase.'); console.error(e); return; }
+
+  document.getElementById('session-code').textContent = sessionCode;
+  document.getElementById('setup-mode').style.display = 'none';
+  document.getElementById('live-mode').style.display = 'block';
+  currentQ = 0; buildChart(); renderLiveQ(); startPolling();
+}
+
+function buildChart() {
+  if (liveChart) liveChart.destroy();
+  const q = questions[currentQ];
+  const h = Math.max(220, q.options.length * 48 + 60);
+  document.getElementById('chart-container').style.height = h + 'px';
+  liveChart = new Chart(document.getElementById('liveChart'), {
+    type: 'bar',
+    data: {
+      labels: q.options.map(o => o || '—'),
+      datasets: [{ data: [...responses[currentQ]], backgroundColor: COLORS.slice(0, q.options.length), borderRadius: 5, borderSkipped: false }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: '#888', font: { size: 12 }, autoSkip: false } },
+        y: { beginAtZero: true, ticks: { stepSize: 1, precision: 0, color: '#888', font: { size: 12 } }, grid: { color: 'rgba(0,0,0,.06)' } }
+      }, animation: { duration: 400 }
+    }
+  });
+}
+
+function renderLiveQ() {
+  const q = questions[currentQ];
+  document.getElementById('live-q-text').textContent = q.text || '(sin texto)';
+  document.getElementById('q-counter').textContent = `Pregunta ${currentQ + 1} de ${questions.length}`;
+  document.getElementById('prev-btn').disabled = currentQ === 0;
+  document.getElementById('next-btn').disabled = currentQ === questions.length - 1;
+  updateCount();
+}
+
+function navQ(dir) {
+  currentQ = Math.max(0, Math.min(questions.length - 1, currentQ + dir));
+  buildChart(); renderLiveQ();
+}
+
+function startPolling() {
+  if (pollInterval) clearInterval(pollInterval);
+  pollInterval = setInterval(async () => {
+    if (!sessionId) return;
+    try {
+      const rows = await sb(`responses?session_id=eq.${sessionId}&select=question_index,option_index`);
+      const counts = questions.map(q => new Array(q.options.length).fill(0));
+      rows.forEach(r => { if (counts[r.question_index]) counts[r.question_index][r.option_index]++; });
+      responses = counts;
+      if (liveChart) { liveChart.data.datasets[0].data = [...responses[currentQ]]; liveChart.update('none'); }
+      updateCount();
+    } catch(e) {}
+  }, 2000);
+}
+
+function updateCount() {
+  document.getElementById('resp-n').textContent = responses[currentQ].reduce((a, b) => a + b, 0);
+}
+
+async function endSession() {
+  if (pollInterval) clearInterval(pollInterval);
+  if (sessionId) {
+    try { await sb(`sessions?id=eq.${sessionId}`, { method: 'PATCH', body: JSON.stringify({ active: false }) }); } catch(e) {}
+  }
+  sessionId = null;
+  document.getElementById('live-mode').style.display = 'none';
+  document.getElementById('setup-mode').style.display = 'block';
+}
+
+function copyCode() {
+  navigator.clipboard.writeText(sessionCode).then(() => toast('Código copiado ✓')).catch(() => {});
+}
+
+// ── PARTICIPANTE ─────────────────────────────────────────────────────
+async function joinSession() {
+  const code = document.getElementById('join-code').value.trim().toUpperCase();
+  if (code.length < 2) { toast('Ingresa el código'); return; }
+  try {
+    const rows = await sb(`sessions?code=eq.${code}&active=eq.true&select=id,questions`);
+    if (!rows || !rows.length) { toast('Código incorrecto o sesión cerrada'); return; }
+    pSessionId = rows[0].id;
+    pSessionQs = JSON.parse(rows[0].questions);
+  } catch(e) { toast('No se pudo conectar'); return; }
+  pCurrentQ = 0; pAnswers = {};
+  document.getElementById('join-screen').style.display = 'none';
+  document.getElementById('participant-session').style.display = 'block';
   renderParticipantQ();
 }
-function renderParticipantQ(){
-  document.getElementById('progress-dots').innerHTML=
-    pSessionQs.map((_,i)=>`<div class="pdot ${i<pCurrentQ?'done':i===pCurrentQ?'curr':''}"></div>`).join('');
-  const area=document.getElementById('p-area');
-  if(pCurrentQ>=pSessionQs.length){
-    area.innerHTML=`<div class="card" style="text-align:center;padding:2.5rem 1rem;">
+
+function renderParticipantQ() {
+  document.getElementById('progress-dots').innerHTML =
+    pSessionQs.map((_, i) => `<div class="pdot ${i < pCurrentQ ? 'done' : i === pCurrentQ ? 'curr' : ''}"></div>`).join('');
+  const area = document.getElementById('p-area');
+  if (pCurrentQ >= pSessionQs.length) {
+    area.innerHTML = `<div class="card" style="text-align:center;padding:2.5rem 1rem;">
       <div style="font-size:42px;">✅</div>
       <p style="font-size:16px;font-weight:500;margin-top:12px;">¡Gracias por participar!</p>
-      <p style="font-size:13px;color:#666;margin-top:6px;">Tus respuestas ya aparecen en la gráfica en vivo.</p>
+      <p style="font-size:13px;color:#666;margin-top:6px;">Tus respuestas ya aparecen en la gráfica.</p>
     </div>`;
     return;
   }
-  const q=pSessionQs[pCurrentQ];
-  let html=`<div class="card"><div class="q-txt-p">${pCurrentQ+1}. ${q.text||'(sin texto)'}</div>`;
-  html+=q.options.map((o,i)=>
-    `<button class="mc-btn ${pAnswers[pCurrentQ]===i?'sel':''}" onclick="selectP(${i})">
-      <span class="lett">${LETTERS[i]}</span>${o||'Opción '+(i+1)}
+  const q = pSessionQs[pCurrentQ];
+  let html = `<div class="card"><div class="q-txt-p">${pCurrentQ + 1}. ${q.text || '(sin texto)'}</div>`;
+  html += q.options.map((o, i) =>
+    `<button class="mc-btn ${pAnswers[pCurrentQ] === i ? 'sel' : ''}" onclick="selectP(${i})">
+      <span class="lett">${LETTERS[i]}</span>${o || 'Opción ' + (i + 1)}
     </button>`
   ).join('');
-  html+=`<button class="primary-btn" onclick="submitP()" ${pAnswers[pCurrentQ]===undefined?'disabled':''}>
-    ${pCurrentQ<pSessionQs.length-1?'Siguiente →':'Enviar respuestas'}
+  html += `<button class="primary-btn" onclick="submitP()" ${pAnswers[pCurrentQ] === undefined ? 'disabled' : ''}>
+    ${pCurrentQ < pSessionQs.length - 1 ? 'Siguiente →' : 'Enviar respuestas'}
   </button></div>`;
-  area.innerHTML=html;
+  area.innerHTML = html;
 }
-function selectP(i){ pAnswers[pCurrentQ]=i; renderParticipantQ(); }
-async function submitP(){
-  if(pAnswers[pCurrentQ]===undefined) return;
-  try{
-    await sb('responses',{method:'POST',prefer:'return=minimal',
-      body:JSON.stringify({session_id:pSessionId,question_index:pCurrentQ,option_index:pAnswers[pCurrentQ]})});
-  }catch(e){toast('Error al enviar');return;}
+
+function selectP(i) { pAnswers[pCurrentQ] = i; renderParticipantQ(); }
+
+async function submitP() {
+  if (pAnswers[pCurrentQ] === undefined) return;
+  try {
+    await sb('responses', {
+      method: 'POST', prefer: 'return=minimal',
+      body: JSON.stringify({ session_id: pSessionId, question_index: pCurrentQ, option_index: pAnswers[pCurrentQ] })
+    });
+  } catch(e) { toast('Error al enviar'); return; }
   pCurrentQ++; renderParticipantQ();
 }
 
 // ── INIT ─────────────────────────────────────────────────────────────
-loadCfg();
+loadQuestions();
 
-// Si la URL tiene ?modo=participante, ir directo a esa vista y ocultar el switch
 const urlParams = new URLSearchParams(window.location.search);
-if (urlParams.get('modo') === 'participante') {
+const modoParam = urlParams.get('modo');
+const codigoParam = urlParams.get('codigo');
+
+if (modoParam === 'participante') {
   document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
   document.getElementById('view-participant').classList.add('active');
-  document.querySelector('.role-switch').style.display = 'none';
+  document.getElementById('role-switch').style.display = 'none';
+  if (codigoParam) {
+    document.getElementById('join-code').value = codigoParam.toUpperCase();
+  }
 }
-
-addQuestion({text:'¿Con qué frecuencia consultas guías clínicas actualizadas?',options:['Siempre','A veces','Rara vez','Nunca']});
-addQuestion({text:'¿Cuál es la principal barrera en tu práctica clínica?',options:['Tiempo','Recursos','Capacitación','Comunicación']});
 </script>
 </body>
 </html>
