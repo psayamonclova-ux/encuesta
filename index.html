@@ -82,7 +82,7 @@ input[type=text]:focus{border-color:#185FA5;}
   <!-- ══ PRESENTADORA ══ -->
   <div id="view-presenter" class="view active">
 
-    <div class="config-banner" id="config-banner">
+    <div class="config-banner" style="display:none;" id="config-banner">
       <b>⚙️ Conecta tu base de datos Supabase (solo una vez)</b>
       <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
         <div>
@@ -160,7 +160,7 @@ input[type=text]:focus{border-color:#185FA5;}
 </div>
 <script>
 // ── CONFIG ──────────────────────────────────────────────────────────
-let SUPABASE_URL = '', SUPABASE_KEY = '';
+let SUPABASE_URL = 'https://snjnhcpcpgczfaukzzsw.supabase.co', SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNuam5oY3BjcGdjemZhdWt6enN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNTU1NDEsImV4cCI6MjA5NDczMTU0MX0._cfl-2_CH4jx4XMyde8JgsTYSPJSJJW5-iaz4_dM_pQ';
 
 function saveCfg() {
   SUPABASE_URL = document.getElementById('cfg-url').value.trim();
