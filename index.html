@@ -372,7 +372,7 @@ function renderParticipantQ() {
     </button>`
   ).join('');
   html += `<button class="primary-btn" onclick="submitP()" ${pAnswers[pCurrentQ] === undefined ? 'disabled' : ''}>
-    ${pCurrentQ < pSessionQs.length - 1 ? 'Siguiente →' : 'Enviar respuestas'}
+    ${pCurrentQ < pSessionQs.length - 1 ? 'Enviar respuesta →' : 'Enviar respuestas'}
   </button></div>`;
   area.innerHTML = html;
 }
