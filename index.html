@@ -253,7 +253,7 @@ async function startSession() {
 
   try {
     // Eliminar sesión previa con el mismo código si existe
-    await sb(`sessions?code=eq.${sessionCode}`, { method: 'DELETE' });
+    await sb(`sessions?code=eq.${sessionCode}`, { method: 'PATCH', body: JSON.stringify({ active: false }) });
     const row = await sb('sessions?select=id', {
       method: 'POST', prefer: 'return=representation',
       body: JSON.stringify({ code: sessionCode, questions: JSON.stringify(questions), active: true })
